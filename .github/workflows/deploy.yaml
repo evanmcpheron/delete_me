@@ -63,9 +63,9 @@ jobs:
     needs: versioning
     steps:
       - name: Echo
-        runs: echo "Build Step"
+        run: echo "Build Step"
   deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Echo
-        runs: echo "Deploy Step"
+        run: echo "Deploy Step"
