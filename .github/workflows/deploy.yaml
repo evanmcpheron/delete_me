@@ -61,21 +61,6 @@ jobs:
             {
               "version": "${{ steps.semantic.outputs.new_release_version }}"
             }
-
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v6
-        with:
-          token: ${{ secrets.PAT }}
-          commit-message: version ${{ steps.semantic.outputs.new_release_version }}
-          committer: dependabot[bot] <41898282+github-actions[bot]@users.noreply.github.com>
-          delete-branch: true
-          title: Bump version
-  automerge:
-    needs: semantic-release
-    runs-on: ubuntu-latest
-    if: github.actor == 'dependabot[bot]'
-    steps:
-      - uses: peter-evans/enable-pull-request-automerge@v3
-        with:
-          pull-request-number: ${{ github.event.pull_request.number }}
-          merge-method: squash
+        run: |
+          cd client
+          echo ${{ steps.semantic.outputs.new_release_version }}
