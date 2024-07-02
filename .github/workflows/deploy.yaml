@@ -59,9 +59,10 @@ jobs:
             {
               "version": "${{ steps.semantic.outputs.new_release_version }}"
             }
-      - name: Echo Client
+      - name: Merge changes
         run: |
-          ls
-          cd client
-          ls
-          echo ${{ steps.semantic.outputs.new_release_version }}
+          git config --global user.name "Evan McPheron"
+          git config --global user.email "evan.mcpheron@icloud.com"
+          git add .
+          git commit -m 'version ${{ steps.semantic.outputs.new_release_version }}'
+          echo ${{ github.actor }}
