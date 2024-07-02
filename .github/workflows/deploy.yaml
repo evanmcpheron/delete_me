@@ -52,5 +52,6 @@ jobs:
       - name: Update file versions
         id: info
         uses: jaywcjlove/github-action-package@main
-        path: client/package.json
+        with:
+          path: client/package.json
       - run: echo "version - ${{ steps.info.outputs.version }}"
