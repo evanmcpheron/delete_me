@@ -63,7 +63,7 @@ jobs:
         run: |
           git config --global user.name "Evan McPheron"
           git config --global user.email "evan.mcpheron@icloud.com"
-          git remote add https://github.com/evanmcpheron/delete_me.git
+          git remote add origin https://github.com/evanmcpheron/delete_me.git
           git add .
           git commit -m 'version ${{ steps.semantic.outputs.new_release_version }}'
           git push origin main
