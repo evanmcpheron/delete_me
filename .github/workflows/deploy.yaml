@@ -50,7 +50,7 @@ jobs:
           cd client
           ls
           mv package.json temp.json
-          jq -r '.version |= ${{ steps.semantic.outputs.new_release_version }}'
+          jq -r '.version |= "${{ steps.semantic.outputs.new_release_version }}"'
 
           rm temp.json
 
@@ -59,7 +59,7 @@ jobs:
           ls
           cd server
           mv package.json temp.json
-          jq -r '.version |= ${{ steps.semantic.outputs.new_release_version }}'
+          jq -r '.version |= "${{ steps.semantic.outputs.new_release_version }}"'
           rm temp.json
   build:
     runs-on: ubuntu-latest
