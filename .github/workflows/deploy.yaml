@@ -6,7 +6,7 @@ on:
     branches:
       - main
     branches-ignore:
-      - version**
+      - version*
 
 jobs:
   semantic-release:
