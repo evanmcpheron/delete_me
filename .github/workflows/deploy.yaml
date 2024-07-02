@@ -59,6 +59,9 @@ jobs:
             {
               "version": "${{ steps.semantic.outputs.new_release_version }}"
             }
+      - name: Echo Client
         run: |
+          ls
           cd client
+          ls
           echo ${{ steps.semantic.outputs.new_release_version }}
