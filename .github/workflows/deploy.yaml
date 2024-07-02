@@ -54,4 +54,8 @@ jobs:
         uses: jaywcjlove/github-action-package@main
         with:
           path: client/package.json
+          data: |
+            {
+              "version": "${{ steps.semantic.outputs.new_release_version }}"
+            }
       - run: echo "version - ${{ steps.info.outputs.version }}"
