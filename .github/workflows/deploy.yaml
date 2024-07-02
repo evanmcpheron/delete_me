@@ -54,7 +54,6 @@ jobs:
           ls
           mv package.json temp.json
           jq -r '.version |= "${{ steps.semantic.outputs.new_release_version }}"'
-          cat package.json
           rm temp.json
 
       - name: Update Server package.json version
