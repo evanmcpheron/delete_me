@@ -24,3 +24,10 @@ jobs:
           cd client
           npm test
   version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull Repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
