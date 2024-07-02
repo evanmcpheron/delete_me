@@ -5,8 +5,6 @@ on:
     # for the develop branch only.
     branches:
       - main
-    branches-ignore:
-      - version*
 
 jobs:
   semantic-release:
