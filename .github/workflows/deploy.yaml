@@ -1,4 +1,4 @@
-name: Semantic Release
+name: Deploy
 
 on:
   pull_request:
