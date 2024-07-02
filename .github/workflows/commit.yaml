@@ -24,6 +24,7 @@ jobs:
           cd client
           npm test
   version:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Pull Repo
