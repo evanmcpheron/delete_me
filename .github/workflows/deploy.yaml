@@ -31,6 +31,7 @@ jobs:
         run: mv .releaserc.prerelease.yaml .releaserc.yaml
 
       - name: Semantic Release
+        if: github.event.head_commit.message != 'version update'
         uses: cycjimmy/semantic-release-action@v2
         id: semantic # Need an `id` for output variables
         with:
@@ -60,13 +61,14 @@ jobs:
               "version": "${{ steps.semantic.outputs.new_release_version }}"
             }
       - name: Commit files
+        if: github.event.head_commit.message != 'version update'
         run: |
-          echo ${{ toJSON(github) }}
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git pull
-          git commit -a -m 'version ${{ steps.semantic.outputs.new_release_version }}'
+          git commit -a -m 'version update'
       - name: Push changes
+        if: github.event.head_commit.message != 'version update'
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.PAT }}
