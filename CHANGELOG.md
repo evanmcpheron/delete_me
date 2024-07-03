@@ -1,3 +1,11 @@
+## [1.0.43](https://github.com/evanmcpheron/delete_me/compare/v1.0.42...v1.0.43) (2024-07-03)
+
+
+### Bug Fixes
+
+* fixes versioning ([dbb88ee](https://github.com/evanmcpheron/delete_me/commit/dbb88eeab4824ddcde457df141e2bf9e4dc2a14b))
+* fixes versioning ([469108c](https://github.com/evanmcpheron/delete_me/commit/469108c3a2264e7ac260937bd76a5eece4f6db1e))
+
 ## [1.0.42](https://github.com/evanmcpheron/delete_me/compare/v1.0.41...v1.0.42) (2024-07-03)
 
 
