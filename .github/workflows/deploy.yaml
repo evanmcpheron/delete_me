@@ -87,18 +87,18 @@ jobs:
           path: client/package.json
           data: |
             {
-              "version": "${{ needs.semantic.outputs.new_release_version }}"
+              "version": "${{ needs.semantic-release.outputs.new_release_version }}"
             }
-      - name: Update client file versions
+      - name: Update server file versions
         uses: jaywcjlove/github-action-package@main
         with:
           path: server/package.json
           data: |
             {
-              "version": "${{ needs.semantic.outputs.new_release_version }}"
+              "version": '${{ needs.semantic-release.outputs.new_release_version }}'
             }
 
-      - name: Update Image Version in the related HelmChart values.yaml
+      - name: Update appVersion for helm
         uses: fjogeleit/yaml-update-action@main
         with:
           valueFile: 'chart/Chart.yaml'
@@ -109,7 +109,7 @@ jobs:
           branch: chore-${{ needs.semantic-release.outputs.previous_tag }}
           message: 'chore-${{ needs.semantic-release.outputs.previous_tag }}'
 
-      - name: Update Image Version in the related HelmChart values.yaml
+      - name: Update version for helm
         uses: fjogeleit/yaml-update-action@main
         with:
           valueFile: 'chart/Chart.yaml'
@@ -121,7 +121,6 @@ jobs:
           message: 'chore-${{ needs.semantic-release.outputs.new_release_version }}'
 
       - name: Commit files
-        if: github.event.head_commit.message != 'version update'
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
