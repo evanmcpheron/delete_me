@@ -22,9 +22,9 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: 'lts/*'
+          node-version: 20
 
       - name: Prepare prerelease semantic
         if: github.ref != 'refs/heads/main'
@@ -96,9 +96,9 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: 'lts/*'
+          node-version: 20
 
       - name: Call action
         id: last_release
@@ -110,7 +110,7 @@ jobs:
         run: |
           TAG=${{ github.event.release.tag_name }}
           echo "VERSION=${TAG#v}" >> $GITHUB_ENV
-          echo VERSION
+          echo '${{ VERSION }}'
 
       - name: Update Chart.yaml
         uses: fjogeleit/yaml-update-action@main
