@@ -117,3 +117,4 @@ jobs:
           valueFile: 'chart/Chart.yaml'
           propertPath: 'appVersion'
           value: '${{ steps.last_release.outputs.tag_name }}'
+          commitChanges: true
