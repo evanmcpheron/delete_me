@@ -15,7 +15,7 @@ jobs:
     permissions:
       contents: write
     outputs:
-      new_realease_version: ${{ steps.semantic.outputs.new_release_version }}
+      new_realease_version: ${{ steps.tag.outputs.new_release_version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -46,14 +46,11 @@ jobs:
 
       - name: Do something when a new release published
         if: steps.semantic.outputs.new_release_published == 'true'
+        id: tag
         run: |
-          echo ${{ steps.semantic.outputs.new_release_version }}
-          echo ${{ steps.semantic.outputs.new_release_major_version }}
-          echo ${{ steps.semantic.outputs.new_release_minor_version }}
-          echo ${{ steps.semantic.outputs.new_release_patch_version }}
+          echo '::set-output name=new_release_version::${{ steps.semantic.outputs.new_release_version }}' ';'
 
       - name: Update client file versions
-        id: info
         uses: jaywcjlove/github-action-package@main
         with:
           path: client/package.json
@@ -62,7 +59,6 @@ jobs:
               "version": "${{ steps.semantic.outputs.new_release_version }}"
             }
       - name: Update client file versions
-        id: info2
         uses: jaywcjlove/github-action-package@main
         with:
           path: server/package.json
