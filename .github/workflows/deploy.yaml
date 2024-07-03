@@ -108,7 +108,7 @@ jobs:
           view_top: 1
       - name: 'Print result'
         run: |
-          TAG=${{ github.event.release.tag_name }}
+          TAG=${{ steps.last_release.outputs.tag_name }}
           echo "VERSION=${TAG#v}" >> $GITHUB_ENV
           echo '${{ VERSION }}'
 
