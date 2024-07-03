@@ -108,10 +108,11 @@ jobs:
           view_top: 1
       - name: 'Print result'
         run: |
-          echo "id: ${{ steps.last_release.outputs.id }}"
-          echo "name: ${{ steps.last_release.outputs.name }}"
           echo "tag_name: ${{ steps.last_release.outputs.tag_name }}"
-          echo "draft: ${{ steps.last_release.outputs.draft }}"
-          echo "prerelease: ${{ steps.last_release.outputs.prerelease }}"
-          echo "url: ${{ steps.last_release.outputs.url }}"
-          echo "html_url: ${{ steps.last_release.outputs.html_url }}"
+
+      - name: Update Chart.yaml
+        uses: fjogeleit/yaml-update-action@main
+        with:
+          valueFile: 'chart/Chart.yaml'
+          propertPath: 'appVersion'
+          value: '${{ steps.last_release.outputs.tag_name }}'
