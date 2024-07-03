@@ -34,7 +34,7 @@ jobs:
       - name: Semantic Release
         if: github.event.head_commit.message != 'version update'
         uses: cycjimmy/semantic-release-action@v2
-        id: semantic # Need an `id` for output variables
+        id: semantic
         with:
           semantic_version: 17
           extra_plugins: |
