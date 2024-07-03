@@ -87,6 +87,8 @@ jobs:
       contents: write
 
     steps:
+      - env:
+        TAG: ${{ needs.semantic-release.outputs.new_release_version }}
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -99,8 +101,8 @@ jobs:
 
       - name: output
         run: |
-          echo '${{ needs.semantic-release.outputs.new_release_version }}'
-          echo '{${{ needs.semantic-release.outputs.new_release_version }}#v}'
+          echo '$TAG'
+          echo '{$TAG#v}'
 
       - name: Update Image Version in the related HelmChart values.yaml
         uses: fjogeleit/yaml-update-action@main
