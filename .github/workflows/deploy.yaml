@@ -50,22 +50,7 @@ jobs:
         run: |
           echo 'new_release_version=${{steps.semantic.outputs.new_release_version}}' >> $GITHUB_OUTPUT
 
-      - name: Update client file versions
-        uses: jaywcjlove/github-action-package@main
-        with:
-          path: client/package.json
-          data: |
-            {
-              "version": "${{ steps.semantic.outputs.new_release_version }}"
-            }
-      - name: Update client file versions
-        uses: jaywcjlove/github-action-package@main
-        with:
-          path: server/package.json
-          data: |
-            {
-              "version": "${{ steps.semantic.outputs.new_release_version }}"
-            }
+
       - name: Commit files
         if: github.event.head_commit.message != 'version update'
         run: |
@@ -79,7 +64,7 @@ jobs:
         with:
           github_token: ${{ secrets.PAT }}
           branch: main
-  docker:
+  update-versions:
     needs: [semantic-release]
     name: Docker Deploy
     runs-on: ubuntu-latest
@@ -101,6 +86,23 @@ jobs:
         run: |
           echo '${{toJSON(needs.semantic-release.outputs.new_release_version)}}'
 
+      - name: Update client file versions
+        uses: jaywcjlove/github-action-package@main
+        with:
+          path: client/package.json
+          data: |
+            {
+              "version": "${{ needs.semantic.outputs.new_release_version }}"
+            }
+      - name: Update client file versions
+        uses: jaywcjlove/github-action-package@main
+        with:
+          path: server/package.json
+          data: |
+            {
+              "version": "${{ needs.semantic.outputs.new_release_version }}"
+            }
+
       - name: Update Image Version in the related HelmChart values.yaml
         uses: fjogeleit/yaml-update-action@main
         with:
@@ -110,16 +112,25 @@ jobs:
           masterBranchName: main
           targetBranch: main
           branch: main
+
+      - name: Update Image Version in the related HelmChart values.yaml
+        uses: fjogeleit/yaml-update-action@main
+        with:
+          valueFile: 'chart/Chart.yaml'
+          propertyPath: 'version'
+          value: '${{ needs.semantic-release.outputs.new_release_version }}'
+          masterBranchName: main
+          targetBranch: main
+          branch: main
+
       - name: Commit files
         if: github.event.head_commit.message != 'version yaml update'
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git stash
           git pull
-          git stash apply
-          git status
-          git commit -a -m 'version update'
+          git commit -a -m 'version yaml update'
+
       - name: Push changes
         if: github.event.head_commit.message != 'version yaml update'
         uses: ad-m/github-push-action@master
