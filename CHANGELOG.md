@@ -3,6 +3,17 @@
 
 ### Bug Fixes
 
+* working on workflow ([6b40d45](https://github.com/evanmcpheron/delete_me/commit/6b40d453d3fc156a48b251a918c96703e61bafcf))
+* working on workflow ([8645746](https://github.com/evanmcpheron/delete_me/commit/86457468351866cc0274b387fc52bd69d70f3927))
+* working on workflow ([477b37f](https://github.com/evanmcpheron/delete_me/commit/477b37ff4e1087068bc652b8516603d4cf2d1d35))
+* working on workflow ([d7ca19f](https://github.com/evanmcpheron/delete_me/commit/d7ca19ff121aa00dbeae77f1853cbaab355b97a9))
+* working on workflow ([d3471f7](https://github.com/evanmcpheron/delete_me/commit/d3471f71b685792ead281441ffcc46112f3a11a1))
+
+## [1.0.30](https://github.com/evanmcpheron/delete_me/compare/v1.0.29...v1.0.30) (2024-07-03)
+
+
+### Bug Fixes
+
 * working on workflow ([8645746](https://github.com/evanmcpheron/delete_me/commit/86457468351866cc0274b387fc52bd69d70f3927))
 * working on workflow ([477b37f](https://github.com/evanmcpheron/delete_me/commit/477b37ff4e1087068bc652b8516603d4cf2d1d35))
 * working on workflow ([d7ca19f](https://github.com/evanmcpheron/delete_me/commit/d7ca19ff121aa00dbeae77f1853cbaab355b97a9))
