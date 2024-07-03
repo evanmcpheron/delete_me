@@ -14,7 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-
+    ouputs:
+      new_realease_version: ${{ steps.semantic.outputs.new_release_version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -100,28 +101,16 @@ jobs:
         with:
           node-version: 20
 
-      - name: Call action
-        id: last_release
-        uses: InsonusK/get-latest-release@v1.0.1
-        with:
-          myToken: ${{ secrets.PAT }}
-          view_top: 1
-      - name: 'Print result'
-        id: tag
-        run: |
-          TAG=${{ steps.last_release.outputs.tag_name }}
-          TAG_CLEAN="${TAG#v}"
-
-      - name: Print Version
-        run: |
-          echo '${{ steps.tag.outputs.TAG }}'
+      - name: output
+        run: echo '${{ needs.semantic-release.outputs.new_release_version }}'
+        run: echo '{${{ needs.semantic-release.outputs.new_release_version }}#v}'
 
       - name: Update Image Version in the related HelmChart values.yaml
         uses: fjogeleit/yaml-update-action@main
         with:
           valueFile: 'chart/Chart.yaml'
           propertyPath: 'appVersion'
-          value: '${{ steps.image.outputs.version }}'
+          value: '${{ needs.semantic-release.outputs.new_release_version }}'
           masterBranchName: main
           targetBranch: main
           branch: main
