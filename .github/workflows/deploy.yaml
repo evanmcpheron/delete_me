@@ -37,7 +37,7 @@ jobs:
         run: mv .releaserc.prerelease.yaml .releaserc.yaml
 
       - name: Semantic Release
-        if: github.event.head_commit.message != 'version update'
+        if: github.event.head_commit.message != 'chore-${{ steps.previous_tag.outputs.tag }}'
         uses: cycjimmy/semantic-release-action@v2
         id: semantic
         with:
@@ -59,11 +59,13 @@ jobs:
     needs: [semantic-release]
     name: Update Version Files
     runs-on: ubuntu-latest
-    if: github.event.head_commit.message != 'version update'
+    if: github.event.head_commit.message != 'chore-${{ needs.semantic-release.outputs.previous_release_version }}'
     permissions:
       contents: write
 
     steps:
+      - env:
+        GH_TOKEN: ${{ secrets.PAT }}
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -118,8 +120,8 @@ jobs:
           value: '${{ needs.semantic-release.outputs.new_release_version }}'
           masterBranchName: main
           targetBranch: main
-          branch: chore-${{ needs.semantic-release.outputs.previous_release_version }}
-          message: 'chore-${{ needs.semantic-release.outputs.previous_release_version }}'
+          branch: chore-${{ needs.semantic-release.outputs.new_release_version }}
+          message: 'chore-${{ needs.semantic-release.outputs.new_release_version }}'
 
       - name: Commit files
         if: github.event.head_commit.message != 'version update'
@@ -128,13 +130,32 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git config pull.rebase true
           git add .
-          git commit -m 'chore-${{ needs.semantic-release.outputs.previous_release_version }}'
-          git pull origin 'chore-${{ needs.semantic-release.outputs.previous_release_version }}'
+          git commit -m 'chore-${{ needs.semantic-release.outputs.new_release_version }}'
+          git pull origin 'chore-${{ needs.semantic-release.outputs.new_release_version }}'
           git add .
 
       - name: Push changes
-        if: github.event.head_commit.message != 'chore-${{ needs.semantic-release.outputs.previous_release_version }}'
+        if: github.event.head_commit.message != 'chore-${{ needs.semantic-release.outputs.new_release_version }}'
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.PAT }}
-          branch: main
+          branch: 'chore-${{ needs.semantic-release.outputs.new_release_version }}'
+
+      - name: Create PR
+        id: pr
+        run: |
+          gh api \
+          --method POST \
+          -H "Accept: application/vnd.github+json" \
+          -H "X-GitHub-Api-Version: 2022-11-28" \
+          /repos/${{ github.repository_owner }}/${{ github.event.repository.name }}/pulls \
+          -f 'title=chore-${{ needs.semantic-release.outputs.new_release_version }}' -f 'body=chore-${{ needs.semantic-release.outputs.new_release_version }}' -f 'head=chore-${{ needs.semantic-release.outputs.new_release_version }}' -f "base=main"
+
+      - name: Merge PR
+        run: |
+          gh api \
+          --method PUT \
+          -H "Accept: application/vnd.github+json" \
+          -H "X-GitHub-Api-Version: 2022-11-28" \
+          /repos/${{ github.repository_owner }}/${{ github.event.repository.name }}/pulls/${{ github.event.number }}/merge \
+          -f 'commit_title=chore-${{ needs.semantic-release.outputs.new_release_version }}' -f 'commit_message=chore-${{ needs.semantic-release.outputs.new_release_version }}'
