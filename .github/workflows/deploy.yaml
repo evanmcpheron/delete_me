@@ -114,7 +114,7 @@ jobs:
 
       - name: Print Version
         run: |
-          echo '${{ steps.tag.outputs.TAG_CLEAN }}'
+          echo '${{ steps.tag.outputs.TAG }}'
 
       - name: Update Image Version in the related HelmChart values.yaml
         uses: fjogeleit/yaml-update-action@main
