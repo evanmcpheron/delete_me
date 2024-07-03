@@ -83,6 +83,7 @@ jobs:
           github_token: ${{ secrets.PAT }}
           branch: main
   docker:
+    needs: [semantic-release]
     name: Docker Deploy
     runs-on: ubuntu-latest
     permissions:
