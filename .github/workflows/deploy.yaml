@@ -51,11 +51,20 @@ jobs:
           echo ${{ steps.semantic.outputs.new_release_minor_version }}
           echo ${{ steps.semantic.outputs.new_release_patch_version }}
 
-      - name: Update file versions
+      - name: Update client file versions
         id: info
         uses: jaywcjlove/github-action-package@main
         with:
           path: client/package.json
+          data: |
+            {
+              "version": "${{ steps.semantic.outputs.new_release_version }}"
+            }
+      - name: Update client file versions
+        id: info
+        uses: jaywcjlove/github-action-package@main
+        with:
+          path: server/package.json
           data: |
             {
               "version": "${{ steps.semantic.outputs.new_release_version }}"
