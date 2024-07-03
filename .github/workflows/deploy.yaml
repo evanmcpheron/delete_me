@@ -143,14 +143,20 @@ jobs:
         id: pr
         env:
           GH_TOKEN: ${{ secrets.PAT }}
-        run: |
-          gh api --method POST -H "Accept: application/json" -H "X-GitHub-Api-Version: 2022-11-28" /repos/${{ github.repository_owner }}/${{ github.event.repository.name }}/pulls -f 'title=chore-${{ needs.semantic-release.outputs.new_release_version }}' -f 'body=chore-${{ needs.semantic-release.outputs.new_release_version }}' -f 'head=chore-${{ needs.semantic-release.outputs.new_release_version }}' -f "base=main" >> $GITHUB_OUTPUT
+        uses: peter-evans/create-pull-request@v6
+          with:
+            git-token: ${{ secrets.PAT }}
+            commit-message: 'chore-${{ needs.semantic-release.outputs.new_release_version }}'
+            title: 'chore-${{ needs.semantic-release.outputs.new_release_version }}'
+            base: main
 
       - name: Merge PR
         env:
           GH_TOKEN: ${{ secrets.PAT }}
         run: |
-          echo ${{ steps.pr.outputs.number }}
+          echo "Pull Request Number - ${{ steps.pr.outputs.pull-request-number }}"
+          echo "Pull Request URL - ${{ steps.pr.outputs.pull-request-url }}"
+          echo "Pull Request URL - ${{ toJSON(steps.pr.outputs) }}"
           gh api \:cpu_quota: value
           --method PUT \
           -H "Accept: application/vnd.github+json" \
