@@ -5,8 +5,7 @@ on:
     branches:
       - main
     tags-ignore:        
-      - v2
-      - v1.*
+      - chore-*
 
 jobs:
   semantic-release:
