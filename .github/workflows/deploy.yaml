@@ -4,14 +4,10 @@ on:
   push:
     branches:
       - main
-    tags-ignore:        
-      - chore-*
-      - v2.
-      - v1.*
 
 jobs:
   semantic-release:
-    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    if: github.event.head_commit.message != 'chore-${{ steps.previous_tag.outputs.tag }}'
 
     name: Semantic Release
     runs-on: ubuntu-latest
@@ -59,10 +55,10 @@ jobs:
           echo 'new_release_version=${{steps.semantic.outputs.new_release_version}}' >> $GITHUB_OUTPUT
 
   update-versions:
+    if: github.event.head_commit.message != 'chore-${{ needs.semantic-release.outputs.previous_release_version }}'
     needs: [semantic-release]
     name: Update Version Files
     runs-on: ubuntu-latest
-    if: github.event.head_commit.message != 'chore-${{ needs.semantic-release.outputs.previous_release_version }}'
     permissions:
       contents: write
 
