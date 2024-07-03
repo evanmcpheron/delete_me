@@ -95,7 +95,7 @@ jobs:
           path: server/package.json
           data: |
             {
-              "version": '${{ needs.semantic-release.outputs.new_release_version }}'
+              "version": "${{ needs.semantic-release.outputs.new_release_version }}"
             }
 
       - name: Update appVersion for helm
