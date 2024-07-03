@@ -50,20 +50,6 @@ jobs:
         run: |
           echo 'new_release_version=${{steps.semantic.outputs.new_release_version}}' >> $GITHUB_OUTPUT
 
-
-      - name: Commit files
-        if: github.event.head_commit.message != 'version update'
-        run: |
-          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git pull
-          git commit -a -m 'version update'
-      - name: Push changes
-        if: github.event.head_commit.message != 'version update'
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.PAT }}
-          branch: main
   update-versions:
     needs: [semantic-release]
     name: Docker Deploy
