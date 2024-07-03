@@ -99,7 +99,7 @@ jobs:
 
       - name: output
         run: |
-          echo '${{toJSON(needs.semantic-release.outputs)}}'
+          echo '${{needs.semantic-release.outputs.new_release_version}}'
 
       - name: Update Image Version in the related HelmChart values.yaml
         uses: fjogeleit/yaml-update-action@main
