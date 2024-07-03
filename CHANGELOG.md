@@ -1,3 +1,10 @@
+## [1.0.54](https://github.com/evanmcpheron/delete_me/compare/v1.0.53...v1.0.54) (2024-07-03)
+
+
+### Bug Fixes
+
+* working on workflow ([71912dd](https://github.com/evanmcpheron/delete_me/commit/71912dd5350c0a67183245189ae70eee28ac369c))
+
 ## [1.0.53](https://github.com/evanmcpheron/delete_me/compare/v1.0.52...v1.0.53) (2024-07-03)
 
 
