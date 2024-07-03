@@ -148,6 +148,7 @@ jobs:
           git-token: ${{ secrets.PAT }}
           commit-message: 'chore-${{ needs.semantic-release.outputs.new_release_version }}'
           title: 'chore-${{ needs.semantic-release.outputs.new_release_version }}'
+          branch: 'chore-${{ needs.semantic-release.outputs.new_release_version }}'
           base: main
 
       - name: Merge PR
