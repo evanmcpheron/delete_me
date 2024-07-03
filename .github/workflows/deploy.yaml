@@ -143,13 +143,13 @@ jobs:
         id: pr
         env:
           GH_TOKEN: ${{ secrets.PAT }}
-        uses: peter-evans/create-pull-request@v6
+        uses: devops-infra/action-pull-request@v0.5.5
         with:
-          token: ${{ secrets.PAT }}
+          github_token: ${{ secrets.PAT }}
           commit-message: 'chore-${{ needs.semantic-release.outputs.new_release_version }}'
           title: 'chore-${{ needs.semantic-release.outputs.new_release_version }}'
-          branch: 'chore-${{ needs.semantic-release.outputs.new_release_version }}'
-          base: main
+          source_branch: 'chore-${{ needs.semantic-release.outputs.new_release_version }}'
+          target_branch: main
 
       - name: Merge PR
         env:
