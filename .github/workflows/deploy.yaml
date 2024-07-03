@@ -100,12 +100,11 @@ jobs:
         with:
           node-version: 'lts/*'
 
-      - name: 'call action'
+      - name: Call action
         id: last_release
         uses: InsonusK/get-latest-release@v1.0.1
         with:
           myToken: ${{ secrets.PAT }}
-          exclude_types: 'release'
           view_top: 1
       - name: 'Print result'
         run: |
