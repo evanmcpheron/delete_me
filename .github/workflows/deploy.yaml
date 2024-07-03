@@ -112,18 +112,9 @@ jobs:
           TAG=${{ steps.last_release.outputs.tag_name }}
           TAG_CLEAN="${TAG#v}"
 
-      - name: Push app image
-        id: image
-        run: |
-          VERSION=$(echo '${{ steps.tag.outputs.TAG_CLEAN }}' | sed -e 's,.*/\(.*\),\1,')
-          # Strip "v" prefix from tag name
-          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
-          echo "::set-output name=version::$VERSION"
-          echo $VERSION
-
       - name: Print Version
         run: |
-          echo '${{ steps.image.outputs.version }}'
+          echo '${{ steps.tag.outputs.TAG_CLEAN }}'
 
       - name: Update Image Version in the related HelmChart values.yaml
         uses: fjogeleit/yaml-update-action@main
