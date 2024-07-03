@@ -144,13 +144,12 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.PAT }}
         run: |
-          value=$((gh api \
+          gh api \
           --method POST \
           -H "Accept: application/vnd.github+json" \
           -H "X-GitHub-Api-Version: 2022-11-28" \
           /repos/${{ github.repository_owner }}/${{ github.event.repository.name }}/pulls \
-          -f 'title=chore-${{ needs.semantic-release.outputs.new_release_version }}' -f 'body=chore-${{ needs.semantic-release.outputs.new_release_version }}' -f 'head=chore-${{ needs.semantic-release.outputs.new_release_version }}' -f "base=main"))
-          echo "PR=$value" >> $GITHUB_OUTPUT
+          -f 'title=chore-${{ needs.semantic-release.outputs.new_release_version }}' -f 'body=chore-${{ needs.semantic-release.outputs.new_release_version }}' -f 'head=chore-${{ needs.semantic-release.outputs.new_release_version }}' -f "base=main" >> $GITHUB_OUTPUT
 
       - name: Merge PR
         env:
