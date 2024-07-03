@@ -48,7 +48,7 @@ jobs:
         if: steps.semantic.outputs.new_release_published == 'true'
         id: tag
         run: |
-          echo "{new_release_version}={steps.semantic.outputs.new_release_version}" >> $GITHUB_OUTPUT
+          echo 'new_release_version=${{steps.semantic.outputs.new_release_version}}' >> $GITHUB_OUTPUT
 
       - name: Update client file versions
         uses: jaywcjlove/github-action-package@main
