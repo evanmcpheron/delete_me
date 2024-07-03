@@ -89,6 +89,9 @@ jobs:
     steps:
       - env:
         TAG: ${{ needs.semantic-release.outputs.new_release_version }}
+        run: |
+          echo '$TAG'
+          echo '{$TAG#v}'
       - name: Checkout
         uses: actions/checkout@v4
         with:
