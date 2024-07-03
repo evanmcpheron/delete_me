@@ -145,7 +145,7 @@ jobs:
           GH_TOKEN: ${{ secrets.PAT }}
         uses: peter-evans/create-pull-request@v6
         with:
-          git-token: ${{ secrets.PAT }}
+          token: ${{ secrets.PAT }}
           commit-message: 'chore-${{ needs.semantic-release.outputs.new_release_version }}'
           title: 'chore-${{ needs.semantic-release.outputs.new_release_version }}'
           branch: 'chore-${{ needs.semantic-release.outputs.new_release_version }}'
