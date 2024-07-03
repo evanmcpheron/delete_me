@@ -1,3 +1,10 @@
+## [1.0.70](https://github.com/evanmcpheron/delete_me/compare/v1.0.69...v1.0.70) (2024-07-03)
+
+
+### Bug Fixes
+
+* testing a filter ([e775cf2](https://github.com/evanmcpheron/delete_me/commit/e775cf2c8d4c2d1ed7192041c877d9be6f3f3e5f))
+
 ## [1.0.69](https://github.com/evanmcpheron/delete_me/compare/v1.0.68...v1.0.69) (2024-07-03)
 
 
