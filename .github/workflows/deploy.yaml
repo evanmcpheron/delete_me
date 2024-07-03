@@ -107,14 +107,15 @@ jobs:
           myToken: ${{ secrets.PAT }}
           view_top: 1
       - name: 'Print result'
+        id: tag
         run: |
           TAG=${{ steps.last_release.outputs.tag_name }}
-          echo "${TAG#v}"
+          TAG_CLEAN="${TAG#v}"
 
       - name: Push app image
         id: image
         run: |
-          VERSION=$(echo '${{ TAG }}' | sed -e 's,.*/\(.*\),\1,')
+          VERSION=$(echo '${{ steps.tag.outputs.TAG_CLEAN }}' | sed -e 's,.*/\(.*\),\1,')
           # Strip "v" prefix from tag name
           [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
           echo "::set-output name=version::$VERSION"
