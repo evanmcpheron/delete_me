@@ -7,6 +7,8 @@ on:
   pull_request:
     branches-ignore:        
       - chore-*
+      - v2.
+      - v1.*
 
 jobs:
   semantic-release:
