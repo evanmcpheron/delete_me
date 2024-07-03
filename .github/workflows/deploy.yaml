@@ -64,8 +64,6 @@ jobs:
       contents: write
 
     steps:
-      - env:
-        GH_TOKEN: ${{ secrets.PAT }}
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -142,7 +140,8 @@ jobs:
           branch: 'chore-${{ needs.semantic-release.outputs.new_release_version }}'
 
       - name: Create PR
-        id: pr
+        env:
+          GH_TOKEN: ${{ secrets.PAT }}
         run: |
           gh api \
           --method POST \
@@ -152,6 +151,8 @@ jobs:
           -f 'title=chore-${{ needs.semantic-release.outputs.new_release_version }}' -f 'body=chore-${{ needs.semantic-release.outputs.new_release_version }}' -f 'head=chore-${{ needs.semantic-release.outputs.new_release_version }}' -f "base=main"
 
       - name: Merge PR
+        env:
+          GH_TOKEN: ${{ secrets.PAT }}
         run: |
           gh api \
           --method PUT \
