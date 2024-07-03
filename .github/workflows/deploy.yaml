@@ -159,6 +159,7 @@ jobs:
           echo "Pull Request Number - ${{ steps.pr.outputs.pr_number }}"
           echo "Pull Request URL - ${{ steps.pr.outputs.url }}"
           echo "Pull Request URL - ${{ toJSON(steps.pr.outputs) }}"
+          echo ${{ github.event.pull_request.number }}
           gh api \
           --method PUT \
           -H "Accept: application/vnd.github+json" \
@@ -167,7 +168,7 @@ jobs:
           -f 'commit_title=chore-${{ needs.semantic-release.outputs.new_release_version }}' -f 'commit_message=chore-${{ needs.semantic-release.outputs.new_release_version }}'
 
       - name: Delete Branch
-                uses: dawidd6/action-delete-branch@v3
+        uses: dawidd6/action-delete-branch@v3
         with:
           github_token: ${{github.token}}
-          numbers: ${{github.event.pull_request.number}}
+          numbers: ${{steps.pr.outputs.pr_number}}
