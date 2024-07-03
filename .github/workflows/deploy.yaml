@@ -109,8 +109,7 @@ jobs:
       - name: 'Print result'
         run: |
           TAG=${{ steps.last_release.outputs.tag_name }}
-          echo "VERSION=${TAG#v}" >> $GITHUB_ENV
-          echo '${{ VERSION }}'
+          echo "${TAG#v}"
 
       - name: Update Chart.yaml
         uses: fjogeleit/yaml-update-action@main
