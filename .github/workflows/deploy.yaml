@@ -119,6 +119,7 @@ jobs:
           # Strip "v" prefix from tag name
           [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
           echo "::set-output name=version::$VERSION"
+          echo $VERSION
 
       - name: Update Image Version in the related HelmChart values.yaml
         uses: fjogeleit/yaml-update-action@main
@@ -126,6 +127,9 @@ jobs:
           valueFile: 'chart/Chart.yaml'
           propertyPath: 'appVersion'
           value: ${{ steps.image.outputs.version }}
+          masterBranchName: main
+          targetBranch: main
+          branch: main
       - name: Commit files
         if: github.event.head_commit.message != 'version yaml update'
         run: |
