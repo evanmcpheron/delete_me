@@ -140,6 +140,7 @@ jobs:
           branch: 'chore-${{ needs.semantic-release.outputs.new_release_version }}'
 
       - name: Create PR
+        id: pr
         env:
           GH_TOKEN: ${{ secrets.PAT }}
         run: |
@@ -154,6 +155,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.PAT }}
         run: |
+          echo ${{ toJSON(steps.id.outputs.pr) }}
           gh api \
           --method PUT \
           -H "Accept: application/vnd.github+json" \
