@@ -155,7 +155,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.PAT }}
         run: |
-          echo ${{ steps.pr.outputs.number }}
+          echo ${{ steps.pr.outputs }}
           gh api \:cpu_quota: value
           --method PUT \
           -H "Accept: application/vnd.github+json" \
