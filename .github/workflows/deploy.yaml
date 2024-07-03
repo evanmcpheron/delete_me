@@ -2,9 +2,11 @@ name: Deploy
 
 on:
   push:
-    # for the develop branch only.
     branches:
       - main
+    tags-ignore:        
+      - v2
+      - v1.*
 
 jobs:
   semantic-release:
