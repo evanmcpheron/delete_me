@@ -52,8 +52,9 @@ jobs:
 
   update-versions:
     needs: [semantic-release]
-    name: Docker Deploy
+    name: Update Version Files
     runs-on: ubuntu-latest
+    if: github.event.head_commit.message != 'version update'
     permissions:
       contents: write
 
@@ -110,15 +111,16 @@ jobs:
           branch: main
 
       - name: Commit files
-        if: github.event.head_commit.message != 'version yaml update'
+        if: github.event.head_commit.message != 'version update'
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git pull
-          git commit -a -m 'version yaml update'
+          git add .
+          git commit -m 'version update'
 
       - name: Push changes
-        if: github.event.head_commit.message != 'version yaml update'
+        if: github.event.head_commit.message != 'version update'
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.PAT }}
