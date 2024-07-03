@@ -1,3 +1,10 @@
+## [1.0.38](https://github.com/evanmcpheron/delete_me/compare/v1.0.37...v1.0.38) (2024-07-03)
+
+
+### Bug Fixes
+
+* fixes versioning ([e376dd2](https://github.com/evanmcpheron/delete_me/commit/e376dd2fa10c9907e2423dd27f11fa74f1e46a83))
+
 ## [1.0.37](https://github.com/evanmcpheron/delete_me/compare/v1.0.36...v1.0.37) (2024-07-03)
 
 
