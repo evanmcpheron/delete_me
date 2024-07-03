@@ -4,9 +4,10 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches-ignore:        
+    tags-ignore:        
       - chore-*
+      - v2.
+      - v1.*
 
 jobs:
   semantic-release:
