@@ -149,7 +149,7 @@ jobs:
           -H "Accept: application/json" \
           -H "X-GitHub-Api-Version: 2022-11-28" \
           /repos/${{ github.repository_owner }}/${{ github.event.repository.name }}/pulls \
-          -f 'title=chore-${{ needs.semantic-release.outputs.new_release_version }}' -f 'body=chore-${{ needs.semantic-release.outputs.new_release_version }}' -f 'head=chore-${{ needs.semantic-release.outputs.new_release_version }}' -f "base=main"}.number >> $GITHUB_OUTPUT
+          -f 'title=chore-${{ needs.semantic-release.outputs.new_release_version }}' -f 'body=chore-${{ needs.semantic-release.outputs.new_release_version }}' -f 'head=chore-${{ needs.semantic-release.outputs.new_release_version }}' -f "base=main"} >> $GITHUB_OUTPUT
 
       - name: Merge PR
         env:
