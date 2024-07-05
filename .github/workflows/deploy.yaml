@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-    paths-ignore:
-      - 'README.md'
 
 jobs:
   semantic-release:
@@ -38,7 +36,7 @@ jobs:
         run: mv .releaserc.prerelease.yaml .releaserc.yaml
 
       - name: Semantic Release
-        if: github.event.head_commit.message != format('chore(release)[0] ${{ steps.previous_tag.outputs.tag }} [skip ci]', ":")
+        if: github.event.head_commit.message != format('chore(release)[0] ${{ steps.previous_tag.outputs.tag }} [skip ci]', ':')
         uses: cycjimmy/semantic-release-action@v2
         id: semantic
         with:
@@ -116,7 +114,7 @@ jobs:
 
       - name: Create branch
         run: |
-          git checkout -b format('chore(release)[0] ${{ needs.semantic-release.outputs.previous_release_version }} [skip ci]', ':')
+          git checkout -b format('chore-${{ needs.semantic-release.outputs.previous_release_version }}', ":")
 
       - name: Update client file versions
         uses: jaywcjlove/github-action-package@main
@@ -140,22 +138,22 @@ jobs:
         with:
           valueFile: 'chart/Chart.yaml'
           propertyPath: 'appVersion'
-          value: format('chore(release)[0] ${{ needs.semantic-release.outputs.previous_release_version }} [skip ci]', ':')
+          value: format('chore(release)[0] ${{ needs.semantic-release.outputs.new_release_version }}', ':' )
           masterBranchName: main
           targetBranch: main
-          branch: format('chore(release)[0] ${{ needs.semantic-release.outputs.previous_release_version }} [skip ci]', ':')
-          message: format('chore(release)[0] ${{ needs.semantic-release.outputs.previous_release_version }} [skip ci]', ':')
+          branch: 'chore-${{ needs.semantic-release.outputs.previous_tag }}'
+          message: format('chore(release)[0] ${{ needs.semantic-release.outputs.previous_tag }} [skip ci]', ':' )
 
       - name: Update version for helm
         uses: fjogeleit/yaml-update-action@main
         with:
           valueFile: 'chart/Chart.yaml'
           propertyPath: 'version'
-          value: format('chore(release)[0] ${{ needs.semantic-release.outputs.previous_release_version }} [skip ci]', ':')
+          value: format('chore(release)[0] ${{ needs.semantic-release.outputs.new_release_version }}', ':' )
           masterBranchName: main
           targetBranch: main
-          branch: format('chore(release)[0] ${{ needs.semantic-release.outputs.previous_release_version }} [skip ci]', ':')
-          message: format('chore(release)[0] ${{ needs.semantic-release.outputs.previous_release_version }} [skip ci]', ':')
+          branch: 'chore-${{ needs.semantic-release.outputs.new_release_tag }}'
+          message: format('chore(release)[0] ${{ needs.semantic-release.outputs.new_release_version }}', ':' )
 
       - name: Commit files
         run: |
@@ -163,16 +161,16 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git config pull.rebase true
           git add .
-          git commit -m format('chore(release)[0] ${{ needs.semantic-release.outputs.previous_release_version }} [skip ci]', ':')
-          git pull origin format('chore(release)[0] ${{ needs.semantic-release.outputs.previous_release_version }} [skip ci]', ':')
+          git commit -m ${{format('chore(release)[0] ${{ needs.semantic-release.outputs.new_release_version }} [skip ci]', ':' )}}
+          git pull origin 'chore-${{ needs.semantic-release.outputs.new_release_version }}'
           git add .
 
       - name: Push changes
-        if: github.event.head_commit.message != format('chore(release)[0] ${{ needs.semantic-release.outputs.previous_release_version }} [skip ci]', ':')
+        if: github.event.head_commit.message != ${{format('chore(release)[0] ${{ needs.semantic-release.outputs.new_release_version }} [skip ci]', ':' )}}
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.PAT }}
-          branch: format('chore(release)[0] ${{ needs.semantic-release.outputs.previous_release_version }} [skip ci]', ':')
+          branch: 'chore-${{ needs.semantic-release.outputs.new_release_version }}'
 
       - name: Create PR
         id: pr
@@ -181,21 +179,25 @@ jobs:
         uses: devops-infra/action-pull-request@v0.5.5
         with:
           github_token: ${{ secrets.PAT }}
-          commit-message: format('chore(release)[0] ${{ needs.semantic-release.outputs.previous_release_version }} [skip ci]', ':')
-          title: format('chore(release)[0] ${{ needs.semantic-release.outputs.previous_release_version }} [skip ci]', ':')
-          source_branch: format('chore(release)[0] ${{ needs.semantic-release.outputs.previous_release_version }} [skip ci]', ':')
+          commit-message: ${{format('chore(release)[0] ${{ needs.semantic-release.outputs.new_release_version }}', ':' )}}
+          title: ${{format('chore(release)[0] ${{ needs.semantic-release.outputs.new_release_version }}', ':' )}}
+          source_branch: 'chore-${{ needs.semantic-release.outputs.new_release_version }}'
           target_branch: main
 
       - name: Merge PR
         env:
           GH_TOKEN: ${{ secrets.PAT }}
         run: |
+          echo "Pull Request Number - ${{ steps.pr.outputs.pr_number }}"
+          echo "Pull Request URL - ${{ steps.pr.outputs.url }}"
+          echo "Pull Request URL - ${{ toJSON(steps.pr.outputs) }}"
+          echo ${{ github.event.pull_request.number }}
           gh api \
           --method PUT \
           -H "Accept: application/vnd.github+json" \
           -H "X-GitHub-Api-Version: 2022-11-28" \
           /repos/${{ github.repository_owner }}/${{ github.event.repository.name }}/pulls/${{ steps.pr.outputs.pr_number }}/merge \
-          -f ${{ format( 'commit_title=[0]' -f 'commit_message=[0]', format( "chore(release)[0] ${{ needs.semantic-release.outputs.previous_release_version }} [skip ci]", ":" ) ) }}
+          -f ${{format('commit_title=chore(release)[0] [1] [skip ci]', ':', needs.semantic-release.outputs.new_release_version)}} -f ${{format('commit_message=chore(release)[0] [1] [skip ci]', ':', needs.semantic-release.outputs.new_release_version)}}
 
       - name: Delete Branch
         uses: dawidd6/action-delete-branch@v3
