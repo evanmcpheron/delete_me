@@ -164,8 +164,8 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git config pull.rebase true
           git add .
-          git commit -m ${{format('chore{0}release{1}{2} {3} [skip ci]', '(', ')', ':', needs.semantic-release.outputs.new_release_version )}}
-          git pull origin 'chore-${{ needs.semantic-release.outputs.new_release_version }}'
+          git commit -m "${{format('chore{0}release{1}{2} {3} [skip ci]', '(', ')', ':', needs.semantic-release.outputs.new_release_version )}}"
+          git pull origin chore-${{ needs.semantic-release.outputs.new_release_version }}
           git add .
 
       - name: Push changes
