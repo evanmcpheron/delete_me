@@ -116,7 +116,7 @@ jobs:
 
       - name: Create branch
         run: |
-          git checkout -b ${{format('chore-${{ needs.semantic-release.outputs.previous_release_version }}', ":")}}
+          git checkout -b 'chore-${{ needs.semantic-release.outputs.previous_release_tag }}'
 
       - name: Update client file versions
         uses: jaywcjlove/github-action-package@main
@@ -145,7 +145,7 @@ jobs:
           masterBranchName: main
           targetBranch: main
           branch: 'chore-${{ needs.semantic-release.outputs.previous_tag }}'
-          message: ${{format('chore(release)[0] ${{ needs.semantic-release.outputs.previous_tag }} [skip ci]', ':' )}}
+          message: ${{format('chore(release)[0] [1] [skip ci]', ':', needs.semantic-release.outputs.previous_tag )}}
 
       - name: Update version for helm
         uses: fjogeleit/yaml-update-action@main
@@ -156,7 +156,7 @@ jobs:
           masterBranchName: main
           targetBranch: main
           branch: 'chore-${{ needs.semantic-release.outputs.new_release_tag }}'
-          message: ${{format('chore(release)[0] ${{ needs.semantic-release.outputs.new_release_version }}', ':' )}}
+          message: ${{format('chore(release)[0] [1] [skip ci]', ':', needs.semantic-release.outputs.new_release_version )}}
 
       - name: Commit files
         run: |
@@ -164,12 +164,12 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git config pull.rebase true
           git add .
-          git commit -m ${{format('chore(release)[0] ${{ needs.semantic-release.outputs.new_release_version }} [skip ci]', ':' )}}
+          git commit -m ${{format('chore(release)[0] [1] [skip ci]', ':', needs.semantic-release.outputs.new_release_version )}}
           git pull origin 'chore-${{ needs.semantic-release.outputs.new_release_version }}'
           git add .
 
       - name: Push changes
-        if: github.event.head_commit.message != ${{format('chore(release)[0] [1] [skip ci]', ':', needs.semantic-release.outputs.new_release_versionS )}}
+        if: github.event.head_commit.message != ${{format('chore(release)[0] [1] [skip ci]', ':', needs.semantic-release.outputs.new_release_version )}}
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.PAT }}
@@ -182,8 +182,8 @@ jobs:
         uses: devops-infra/action-pull-request@v0.5.5
         with:
           github_token: ${{ secrets.PAT }}
-          commit-message: ${{format('chore(release)[0] ${{ needs.semantic-release.outputs.new_release_version }}', ':' )}}
-          title: ${{format('chore(release)[0] ${{ needs.semantic-release.outputs.new_release_version }}', ':' )}}
+          commit-message: ${{format('chore(release)[0] [1] [skip ci]', ':', needs.semantic-release.outputs.new_release_version )}}
+          title: ${{format('chore(release)[0] [1] [skip ci]', ':', needs.semantic-release.outputs.new_release_version )}}
           source_branch: 'chore-${{ needs.semantic-release.outputs.new_release_version }}'
           target_branch: main
 
