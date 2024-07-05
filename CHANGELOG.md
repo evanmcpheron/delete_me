@@ -1,3 +1,10 @@
+## [1.0.79](https://github.com/evanmcpheron/delete_me/compare/v1.0.78...v1.0.79) (2024-07-05)
+
+
+### Bug Fixes
+
+* updates pushing to docker hub ([13723ee](https://github.com/evanmcpheron/delete_me/commit/13723ee2ed98df94ce678916a90fccd9e4126c03))
+
 ## [1.0.78](https://github.com/evanmcpheron/delete_me/compare/v1.0.77...v1.0.78) (2024-07-05)
 
 
