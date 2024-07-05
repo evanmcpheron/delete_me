@@ -198,8 +198,8 @@ jobs:
           /repos/${{ github.repository_owner }}/${{ github.event.repository.name }}/pulls/${{ steps.pr.outputs.pr_number }}/merge \
            -f "${{format('commit_title=chore{0}release{1}{2} {3}', '(', ')', ':', needs.semantic-release.outputs.new_release_version) }} [skip ci]" -f "${{format('commit_message=chore{0}release{1}{2} {3}', '(', ')', ':', needs.semantic-release.outputs.new_release_version) }} [skip ci]"
 
-      - name: Delete Branch
+      - name: Delete chore-* branches
         uses: dawidd6/action-delete-branch@v3
         with:
-          github_token: ${{ secrets.PAT}}
-          numbers: ${{ steps.pr.outputs.pr_number }}
+          github_token: ${{secrets.PAT}}
+          prefix: chore
