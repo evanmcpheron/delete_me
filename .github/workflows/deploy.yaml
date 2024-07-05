@@ -36,7 +36,7 @@ jobs:
         run: mv .releaserc.prerelease.yaml .releaserc.yaml
 
       - name: Semantic Release
-        if: github.event.head_commit.message != format('chore(release){0} ${{ steps.previous_tag.outputs.tag }} [skip ci]', ':')
+        if: github.event.head_commit.message != ${{ format('chore{0}release{1}{2} {3} [skip ci]', '(', ')', ':', steps.previous_tag.outputs.tag) }}
         uses: cycjimmy/semantic-release-action@v2
         id: semantic
         with:
