@@ -195,7 +195,7 @@ jobs:
           -H "Accept: application/vnd.github+json" \
           -H "X-GitHub-Api-Version: 2022-11-28" \
           /repos/${{ github.repository_owner }}/${{ github.event.repository.name }}/pulls/${{ steps.pr.outputs.pr_number }}/merge \
-          -f 'commit_title=${{format('chore(release)[0] [1] [skip ci]', ':', ${{ needs.semantic-release.outputs.previous_release_version }})'}} -f 'commit_message=${{format('chore(release)[0] [1] [skip ci]', ':', ${{ needs.semantic-release.outputs.previous_release_version }})'}}'
+          -f ${{('commit_title=[0] -f 'commit_message=[0]', format("chore(release)[0] ${{ needs.semantic-release.outputs.previous_release_version }} [skip ci]", ':'))}}
 
       - name: Delete Branch
         uses: dawidd6/action-delete-branch@v3
