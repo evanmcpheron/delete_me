@@ -1,3 +1,10 @@
+## [1.0.82](https://github.com/evanmcpheron/delete_me/compare/v1.0.81...v1.0.82) (2024-07-05)
+
+
+### Bug Fixes
+
+* removed delete method from workflow ([d2c2d9d](https://github.com/evanmcpheron/delete_me/commit/d2c2d9d02bc8264675811509ffd7c6853f295fdf))
+
 ## [1.0.81](https://github.com/evanmcpheron/delete_me/compare/v1.0.80...v1.0.81) (2024-07-05)
 
 
