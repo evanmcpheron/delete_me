@@ -191,13 +191,12 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.PAT }}
         run: |
-          echo ${{format('commit_title=chore{0}release{1}{2} {3}', '(', ')', ':', needs.semantic-release.outputs.new_release_version) }}
           gh api \
           --method PUT \
           -H "Accept: application/vnd.github+json" \
           -H "X-GitHub-Api-Version: 2022-11-28" \
           /repos/${{ github.repository_owner }}/${{ github.event.repository.name }}/pulls/${{ steps.pr.outputs.pr_number }}/merge \
-           -f ${{format('commit_title=chore{0}release{1}{2} {3}', '(', ')', ':', needs.semantic-release.outputs.new_release_version) }} -f ${{format('commit_message=chore{0}release{1}{2} {3}', '(', ')', ':', needs.semantic-release.outputs.new_release_version) }}
+           -f "${{format('commit_title=chore{0}release{1}{2} {3}', '(', ')', ':', needs.semantic-release.outputs.new_release_version) }}" -f "${{format('commit_message=chore{0}release{1}{2} {3}', '(', ')', ':', needs.semantic-release.outputs.new_release_version) }}"
 
       - name: Delete Branch
         uses: dawidd6/action-delete-branch@v3
