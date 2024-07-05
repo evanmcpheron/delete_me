@@ -1,3 +1,13 @@
+## [1.0.73](https://github.com/evanmcpheron/delete_me/compare/v1.0.72...v1.0.73) (2024-07-05)
+
+
+### Bug Fixes
+
+* updates pushing to docker hub ([ca87606](https://github.com/evanmcpheron/delete_me/commit/ca8760601534ccf76b7b2a01d2b44071440c2154))
+* updates pushing to docker hub ([82d90df](https://github.com/evanmcpheron/delete_me/commit/82d90df46bf044ae79ec0c9bfdf991582f48516a))
+* updates pushing to docker hub ([8776720](https://github.com/evanmcpheron/delete_me/commit/8776720774a1dc756411ca5f174e37bddecd9055))
+* updates pushing to docker hub ([4d18184](https://github.com/evanmcpheron/delete_me/commit/4d1818458357e8057fdf2d4758f42c8746fab5b7))
+
 ## [1.0.72](https://github.com/evanmcpheron/delete_me/compare/v1.0.71...v1.0.72) (2024-07-05)
 
 
