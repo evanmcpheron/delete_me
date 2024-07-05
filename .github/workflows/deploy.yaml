@@ -191,10 +191,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.PAT }}
         run: |
-          echo "Pull Request Number - ${{ steps.pr.outputs.pr_number }}"
-          echo "Pull Request URL - ${{ steps.pr.outputs.url }}"
-          echo "Pull Request URL - ${{ toJSON(steps.pr.outputs) }}"
-          echo ${{ github.event.pull_request.number }}
+          echo ${{format('commit_title=chore(release)[0] ${{ needs.semantic-release.outputs.new_release_version }}', ':')}}
           gh api \
           --method PUT \
           -H "Accept: application/vnd.github+json" \
