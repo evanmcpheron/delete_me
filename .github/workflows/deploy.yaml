@@ -116,7 +116,7 @@ jobs:
 
       - name: Create branch
         run: |
-          git checkout -b ${{format('chore-${{ needs.semantic-release.outputs.previous_release_version }}', ":")}}
+          git checkout -b 'chore-${{ needs.semantic-release.outputs.previous_release_version }}'
 
       - name: Update client file versions
         uses: jaywcjlove/github-action-package@main
@@ -144,8 +144,8 @@ jobs:
           value: '${{ needs.semantic-release.outputs.new_release_version }}'
           masterBranchName: main
           targetBranch: main
-          branch: 'chore-${{ needs.semantic-release.outputs.previous_tag }}'
-          message: ${{format('chore(release)[0] ${{ needs.semantic-release.outputs.previous_tag }} [skip ci]', ':' )}}
+          branch: 'chore-${{ needs.semantic-release.outputs.previous_release_version }}'
+          message: ${{format('chore(release)[0] [1] [skip ci]', ':', needs.semantic-release.outputs.previous_release_version )}}
 
       - name: Update version for helm
         uses: fjogeleit/yaml-update-action@main
@@ -156,7 +156,7 @@ jobs:
           masterBranchName: main
           targetBranch: main
           branch: 'chore-${{ needs.semantic-release.outputs.new_release_tag }}'
-          message: ${{format('chore(release)[0] ${{ needs.semantic-release.outputs.new_release_version }}', ':' )}}
+          message: ${{format('chore(release)[0] [1] [skip ci]', ':', needs.semantic-release.outputs.new_release_version )}}
 
       - name: Commit files
         run: |
@@ -164,12 +164,12 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git config pull.rebase true
           git add .
-          git commit -m ${{format('chore(release)[0] ${{ needs.semantic-release.outputs.new_release_version }} [skip ci]', ':' )}}
+          git commit -m ${{format('chore(release)[0] [1] [skip ci]', ':', needs.semantic-release.outputs.new_release_version )}}
           git pull origin 'chore-${{ needs.semantic-release.outputs.new_release_version }}'
           git add .
 
       - name: Push changes
-        if: github.event.head_commit.message != ${{format('chore(release)[0] [1] [skip ci]', ':', needs.semantic-release.outputs.new_release_versionS )}}
+        if: github.event.head_commit.message != ${{format('chore(release)[0] [1] [skip ci]', ':', needs.semantic-release.outputs.new_release_version )}}
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.PAT }}
@@ -182,8 +182,8 @@ jobs:
         uses: devops-infra/action-pull-request@v0.5.5
         with:
           github_token: ${{ secrets.PAT }}
-          commit-message: ${{format('chore(release)[0] ${{ needs.semantic-release.outputs.new_release_version }}', ':' )}}
-          title: ${{format('chore(release)[0] ${{ needs.semantic-release.outputs.new_release_version }}', ':' )}}
+          commit-message: ${{format('chore(release)[0] [1] [skip ci]', ':', needs.semantic-release.outputs.new_release_version )}}
+          title: ${{format('chore(release)[0] [1] [skip ci]', ':', needs.semantic-release.outputs.new_release_version )}}
           source_branch: 'chore-${{ needs.semantic-release.outputs.new_release_version }}'
           target_branch: main
 
@@ -191,10 +191,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.PAT }}
         run: |
-          echo "Pull Request Number - ${{ steps.pr.outputs.pr_number }}"
-          echo "Pull Request URL - ${{ steps.pr.outputs.url }}"
-          echo "Pull Request URL - ${{ toJSON(steps.pr.outputs) }}"
-          echo ${{ github.event.pull_request.number }}
+          echo ${{format('commit_title=chore(release)[0] ${{ needs.semantic-release.outputs.new_release_version }}', ':')}}
           gh api \
           --method PUT \
           -H "Accept: application/vnd.github+json" \
