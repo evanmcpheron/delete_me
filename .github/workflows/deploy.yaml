@@ -116,7 +116,7 @@ jobs:
 
       - name: Create branch
         run: |
-          git checkout -b 'chore-${{ needs.semantic-release.outputs.previous_release_tag }}'
+          git checkout -b 'chore-${{ needs.semantic-release.outputs.previous_release_version }}'
 
       - name: Update client file versions
         uses: jaywcjlove/github-action-package@main
@@ -144,8 +144,8 @@ jobs:
           value: '${{ needs.semantic-release.outputs.new_release_version }}'
           masterBranchName: main
           targetBranch: main
-          branch: 'chore-${{ needs.semantic-release.outputs.previous_tag }}'
-          message: ${{format('chore(release)[0] [1] [skip ci]', ':', needs.semantic-release.outputs.previous_tag )}}
+          branch: 'chore-${{ needs.semantic-release.outputs.previous_release_version }}'
+          message: ${{format('chore(release)[0] [1] [skip ci]', ':', needs.semantic-release.outputs.previous_release_version )}}
 
       - name: Update version for helm
         uses: fjogeleit/yaml-update-action@main
